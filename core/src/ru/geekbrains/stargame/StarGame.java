@@ -13,7 +13,7 @@ public class StarGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("background1.jpg");
+		img = new Texture("background.jpg");
 	}
 
 	@Override
