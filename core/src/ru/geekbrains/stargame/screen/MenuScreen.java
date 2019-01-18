@@ -27,8 +27,7 @@ public class MenuScreen extends Base2DScreen {
         background = new Texture("background.jpg");
         myspaceship = new Texture("Myship.jpg");
         pos = new Vector2(0, 0);
-        v = new Vector2(2,1);
-        vtouch = new Vector2(t);
+        v = new Vector2(1,1);
     }
 
     @Override
@@ -60,11 +59,33 @@ super.dispose();
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        Vector2 touch;
+        touch = new Vector2(screenX, Gdx.graphics.getHeight() - screenY);
+        v = touch.sub(pos);
+
+
+        v.nor();
+
 
         System.out.println("touchDown " + screenX + " " + (Gdx.graphics.getHeight() - screenY));
         return super.touchDown(screenX, screenY, pointer, button);
+    }
+    @Override
+    public boolean keyDown(int keycode) {
+        System.out.println("keyDown keycode = " + keycode);
 
+
+        if (keycode ==21){
+            v = new Vector2(-1, 0);
+        } else if (keycode == 20) {
+            v = new Vector2(0, -1);
+        }else if (keycode == 22) {
+            v = new Vector2(1, 0);
+        }
+
+        return false;
+    }
 
     }
 
-}
+
