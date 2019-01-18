@@ -25,7 +25,7 @@ public class MenuScreen extends Base2DScreen {
         super.show();
         batch = new SpriteBatch();
         background = new Texture("background.jpg");
-        myspaceship = new Texture("Myship.jpg");
+        myspaceship = new Texture("Myship2.png");
         pos = new Vector2(0, 0);
         v = new Vector2(1,1);
     }
@@ -74,17 +74,20 @@ super.dispose();
     public boolean keyDown(int keycode) {
         System.out.println("keyDown keycode = " + keycode);
 
-
-        if (keycode ==21){
-            v = new Vector2(-1, 0);
-        } else if (keycode == 20) {
-            v = new Vector2(0, -1);
-        }else if (keycode == 22) {
-            v = new Vector2(1, 0);
+        switch (keycode) {
+            case 21:  v = new Vector2(-1, 0);
+           break;
+            case 20:   v = new Vector2(0, -1);
+            break;
+            case 22:      v = new Vector2(1, 0);
+            break;
+            case 19: v = new Vector2(0, 1);
+                break;
         }
 
         return false;
     }
+
 
     }
 
