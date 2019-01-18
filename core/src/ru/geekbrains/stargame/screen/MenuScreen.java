@@ -26,8 +26,8 @@ public class MenuScreen extends Base2DScreen {
         batch = new SpriteBatch();
         background = new Texture("background.jpg");
         myspaceship = new Texture("Myship2.png");
-        pos = new Vector2(0, 0);
-        v = new Vector2(1,1);
+        pos = new Vector2(260, 0);
+        v = new Vector2(0,2);
     }
 
     @Override
@@ -65,6 +65,7 @@ super.dispose();
 
 
         v.nor();
+        v.scl(2);
 
 
         System.out.println("touchDown " + screenX + " " + (Gdx.graphics.getHeight() - screenY));
@@ -84,7 +85,7 @@ super.dispose();
             case 19: v = new Vector2(0, 1);
                 break;
         }
-
+        v.scl(2);
         return false;
     }
 
