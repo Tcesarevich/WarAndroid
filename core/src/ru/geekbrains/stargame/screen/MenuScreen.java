@@ -1,9 +1,11 @@
 package ru.geekbrains.stargame.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.stargame.base.Base2DScreen;
@@ -11,20 +13,22 @@ import ru.geekbrains.stargame.base.Base2DScreen;
 public class MenuScreen extends Base2DScreen {
 
     SpriteBatch batch;
-    Texture img;
+    Texture myspaceship;
     Texture background;
 
     Vector2 pos;
     Vector2 v;
+    Vector2 vtouch;
 
     @Override
     public void show() {
         super.show();
         batch = new SpriteBatch();
-        background = new Texture("bg.png");
-        img = new Texture("badlogic.jpg");
+        background = new Texture("background.jpg");
+        myspaceship = new Texture("Myship.jpg");
         pos = new Vector2(0, 0);
-        v = new Vector2(1,1);
+        v = new Vector2(2,1);
+        vtouch = new Vector2(t);
     }
 
     @Override
@@ -34,11 +38,12 @@ public class MenuScreen extends Base2DScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         batch.draw(background, 0, 0);
-        batch.draw(img, pos.x, pos.y);
+        batch.draw(myspaceship, pos.x, pos.y);
         batch.end();
-        if (Gdx.graphics.getWidth() - 256 > pos.x && Gdx.graphics.getHeight() - 256 > pos.y) {
-            pos.add(v);
-        }
+//        if (Gdx.graphics.getWidth() - 256 > pos.x && Gdx.graphics.getHeight() - 256 > pos.y) {
+//            pos.add(v);
+//        }
+        pos.add(v);
     }
 
     @Override
@@ -49,13 +54,17 @@ public class MenuScreen extends Base2DScreen {
     @Override
     public void dispose() {
         batch.dispose();
-        img.dispose();
-        super.dispose();
+myspaceship.dispose();
+super.dispose();
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+
         System.out.println("touchDown " + screenX + " " + (Gdx.graphics.getHeight() - screenY));
         return super.touchDown(screenX, screenY, pointer, button);
+
+
     }
+
 }
