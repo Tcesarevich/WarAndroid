@@ -27,7 +27,7 @@ public class MenuScreen extends Base2DScreen {
         background = new Texture("background.jpg");
         myspaceship = new Texture("Myship2.png");
         pos = new Vector2(260, 0);
-        v = new Vector2(0,2);
+        v = new Vector2(0, 2);
     }
 
     @Override
@@ -53,41 +53,46 @@ public class MenuScreen extends Base2DScreen {
     @Override
     public void dispose() {
         batch.dispose();
-myspaceship.dispose();
-super.dispose();
+        myspaceship.dispose();
+        super.dispose();
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 touch;
         touch = new Vector2(screenX, Gdx.graphics.getHeight() - screenY);
-        v = touch.sub(pos);
-
-
-        v.nor();
-        v.scl(2);
-
-
-        System.out.println("touchDown " + screenX + " " + (Gdx.graphics.getHeight() - screenY));
-        return super.touchDown(screenX, screenY, pointer, button);
-    }
-    @Override
-    public boolean keyDown(int keycode) {
-        System.out.println("keyDown keycode = " + keycode);
-
-        switch (keycode) {
-            case 21:  v = new Vector2(-1, 0);
-           break;
-            case 20:   v = new Vector2(0, -1);
-            break;
-            case 22:      v = new Vector2(1, 0);
-            break;
-            case 19: v = new Vector2(0, 1);
-                break;
+              if (pos.x == touch.x && pos.y==touch.y) {
+            v = new Vector2(0, 0);}
+            else{
+            v = touch.sub(pos);
+            v.nor();
+            v.scl(2);
         }
-        v.scl(2);
-        return false;
-    }
+
+            System.out.println("touchDown " + screenX + " " + (Gdx.graphics.getHeight() - screenY));
+            return super.touchDown(screenX, screenY, pointer, button);
+        }
+        @Override
+        public boolean keyDown ( int keycode){
+            System.out.println("keyDown keycode = " + keycode);
+
+            switch (keycode) {
+                case 21:
+                    v = new Vector2(-1, 0);
+                    break;
+                case 20:
+                    v = new Vector2(0, -1);
+                    break;
+                case 22:
+                    v = new Vector2(1, 0);
+                    break;
+                case 19:
+                    v = new Vector2(0, 1);
+                    break;
+            }
+            v.scl(2);
+            return false;
+        }
 
 
     }
