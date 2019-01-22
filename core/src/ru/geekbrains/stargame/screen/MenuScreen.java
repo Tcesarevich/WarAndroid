@@ -49,7 +49,6 @@ public class MenuScreen extends Base2DScreen {
         batch.draw(myspaceship, pos.x, pos.y, 0.2f, 0.2f);
         batch.end();
         pos.add(v);
-        pos.add(v2);
 //        buf.set(touch);
 //        if(buf.cpy().sub(pos).len()>V_LEN) {
 //            pos.add(v);
@@ -88,7 +87,7 @@ public class MenuScreen extends Base2DScreen {
 //
 //          //  System.out.println("touchDown " + screenX + " " + (Gdx.graphics.getHeight() - screenY));
 //      //  }
-@Override
+@Override //TODO вроде все реализовывал как и в пред. системе координат, но что то не работает.
 public boolean touchDown(Vector2 touch, int pointer) {
     System.out.println("touchDown screenX = " + pos.x + " screenY = " + pos.y);
     touch.set(pos.x, screenBounds.getHeight() - pos.y).mul(screenToWorlds);
@@ -97,6 +96,7 @@ public boolean touchDown(Vector2 touch, int pointer) {
     return super.touchDown(touch, pointer);
 }
 
+//Управление клавишами реализовано, все работает
         @Override
         public boolean keyDown ( int keycode){
             System.out.println("keyDown keycode = " + keycode);

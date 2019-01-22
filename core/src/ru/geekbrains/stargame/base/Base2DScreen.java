@@ -16,12 +16,12 @@ public class Base2DScreen implements Screen, InputProcessor {
 
     protected Rect screenBounds; // границы области рисования в пикселях
     protected Rect worldBounds; // границы проекции мировых координат
-    private Rect glBounds; // дефолтные границы проекции мир - gl
+    protected Rect glBounds; // дефолтные границы проекции мир - gl
 
-    private Matrix4 worldToGl;
+    protected Matrix4 worldToGl;
     protected Matrix3 screenToWorlds;
 
-    private Vector2 touch;
+    protected Vector2 touch;
     @Override
     public void show() {
         System.out.println("show");
