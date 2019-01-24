@@ -17,12 +17,13 @@ public class Quit extends ScaledTouchUpButton {
         setHeightProportion(0.2f);
         v.set(5f,-3f);
         pos.mulAdd(v, 0.1f);
+
     }
 
     @Override
     public void update(float delta) {
-        pos.mulAdd(v, delta);
-        checkAndHandleBounds();
+//        pos.mulAdd(v, delta);
+//        checkAndHandleBounds();
     }
 
     private void checkAndHandleBounds() {

@@ -1,6 +1,7 @@
 package ru.geekbrains.stargame.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -23,6 +24,9 @@ public class MenuScreen extends Base2DScreen {
     private Star star[];
     private Play play;
     private Quit quit;
+    private boolean playIsPressed;
+    private boolean quitIsPressed;
+
 
     @Override
     public void show() {
@@ -83,6 +87,30 @@ public class MenuScreen extends Base2DScreen {
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer) {
+        if(touch.x >= play.getLeft() && touch.x <= play.getRight() && touch.y >= play.getBottom() && touch.y <= play.getTop()){
+            this.playIsPressed = true;
+            play.setHeightProportion(0.36f);
+        }
+        if(touch.x >= quit.getLeft() && touch.x <= quit.getRight() && touch.y >= quit.getBottom() && touch.y <= quit.getTop()) {
+        quitIsPressed = true;
+            quit.setHeightProportion(0.15f);
+        }
         return super.touchDown(touch, pointer);
     }
+
+//
+
+    @Override
+    public boolean touchUp(Vector2 touch, int pointer) {
+        if (touch.x >= play.getLeft() && touch.x <= play.getRight() && touch.y >= play.getBottom() && touch.y <= play.getTop() &&playIsPressed==true) {
+            this.playIsPressed = false;
+            play.setHeightProportion(0.4f);
+        }
+        if (touch.x >= quit.getLeft() && touch.x <= quit.getRight() && touch.y >= quit.getBottom() && touch.y <= quit.getTop()&& quitIsPressed==true) {
+            quitIsPressed = false;
+            System.exit(0);
+        }
+            return super.touchUp(touch, pointer);
+    }
 }
+
