@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.stargame.base.Base2DScreen;
 import ru.geekbrains.stargame.math.Rect;
+import ru.geekbrains.stargame.sprite.Play;
+import ru.geekbrains.stargame.sprite.Quit;
 import ru.geekbrains.stargame.sprite.Star;
 import ru.geekbrains.stargame.sprite.Background;
 
@@ -19,7 +21,8 @@ public class MenuScreen extends Base2DScreen {
     private Texture bg;
     private Background background;
     private Star star[];
-
+    private Play play;
+    private Quit quit;
 
     @Override
     public void show() {
@@ -27,10 +30,13 @@ public class MenuScreen extends Base2DScreen {
         bg = new Texture("background.jpg");
         background = new Background(new TextureRegion(bg));
         atlas = new TextureAtlas("textures/menuAtlas.tpack");
+        play = new Play(atlas);
+        quit = new Quit(atlas);
         star = new Star[256];
         for (int i = 0; i < star.length; i++) {
             star[i] = new Star(atlas);
         }
+
     }
 
     @Override
@@ -51,6 +57,9 @@ public class MenuScreen extends Base2DScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
+        play.draw(batch);
+        quit.draw(batch);
+
         for (int i = 0; i < star.length; i++) {
             star[i].draw(batch);
         }
