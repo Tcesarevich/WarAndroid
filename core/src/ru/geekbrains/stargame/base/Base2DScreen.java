@@ -11,17 +11,19 @@ import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.stargame.math.MatrixUtils;
 import ru.geekbrains.stargame.math.Rect;
 
-public class Base2DScreen implements Screen, InputProcessor {
+public abstract class Base2DScreen implements Screen, InputProcessor {
+
     protected SpriteBatch batch;
 
-    protected Rect screenBounds; // границы области рисования в пикселях
-    protected Rect worldBounds; // границы проекции мировых координат
-    protected Rect glBounds; // дефолтные границы проекции мир - gl
+    private Rect screenBounds; // границы области рисования в пикселях
+    private Rect worldBounds; // границы проекции мировых координат
+    private Rect glBounds; // дефолтные границы проекции мир - gl
 
-    protected Matrix4 worldToGl;
-    protected Matrix3 screenToWorlds;
+    private Matrix4 worldToGl;
+    private Matrix3 screenToWorlds;
 
-    protected Vector2 touch;
+    private Vector2 touch;
+
     @Override
     public void show() {
         System.out.println("show");
@@ -54,6 +56,10 @@ public class Base2DScreen implements Screen, InputProcessor {
         MatrixUtils.calcTransitionMatrix(worldToGl, worldBounds, glBounds);
         batch.setProjectionMatrix(worldToGl);
         MatrixUtils.calcTransitionMatrix(screenToWorlds, screenBounds, worldBounds);
+        resize(worldBounds);
+    }
+
+    public void resize(Rect worldBounds) {
 
     }
 
@@ -76,6 +82,7 @@ public class Base2DScreen implements Screen, InputProcessor {
     @Override
     public void dispose() {
         System.out.println("dispose");
+        batch.dispose();
     }
 
 
@@ -102,16 +109,13 @@ public class Base2DScreen implements Screen, InputProcessor {
         System.out.println("touchDown screenX = " + screenX + " screenY = " + screenY);
         touch.set(screenX, screenBounds.getHeight() - screenY).mul(screenToWorlds);
         touchDown(touch, pointer);
-
         return false;
     }
+
     public boolean touchDown(Vector2 touch, int pointer) {
         System.out.println("touchDown touch.x = " + touch.x + " touch.y = " + touch.y);
-
-
         return false;
     }
-
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
