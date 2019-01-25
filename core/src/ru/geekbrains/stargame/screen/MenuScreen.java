@@ -1,5 +1,6 @@
 package ru.geekbrains.stargame.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
+import ru.geekbrains.stargame.Star2DGame;
 import ru.geekbrains.stargame.base.Base2DScreen;
 import ru.geekbrains.stargame.math.Rect;
 import ru.geekbrains.stargame.sprite.Play;
@@ -26,6 +28,7 @@ public class MenuScreen extends Base2DScreen {
     private Quit quit;
     private boolean playIsPressed;
     private boolean quitIsPressed;
+    protected Screen screen;
 
 
     @Override
@@ -105,12 +108,24 @@ public class MenuScreen extends Base2DScreen {
         if (touch.x >= play.getLeft() && touch.x <= play.getRight() && touch.y >= play.getBottom() && touch.y <= play.getTop() &&playIsPressed==true) {
             this.playIsPressed = false;
             play.setHeightProportion(0.4f);
+            this.hide();
+            setScreen(new GameScreen());
+
         }
         if (touch.x >= quit.getLeft() && touch.x <= quit.getRight() && touch.y >= quit.getBottom() && touch.y <= quit.getTop()&& quitIsPressed==true) {
             quitIsPressed = false;
             System.exit(0);
         }
             return super.touchUp(touch, pointer);
+    }
+
+    public void setScreen (Screen screen) {
+        if (this.screen != null) this.screen.hide();
+        this.screen = screen;
+        if (this.screen != null) {
+            this.screen.show();
+            this.screen.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        }
     }
 }
 
