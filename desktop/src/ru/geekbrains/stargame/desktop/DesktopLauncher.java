@@ -15,6 +15,7 @@ public class DesktopLauncher {
 		config.height = (int) (config.width/aspect);
 		config.resizable = false;
 		new LwjglApplication(new Star2DGame(), config);
-		Music music = Gdx.audio.newMusic(Gdx.files.internal("data/mymusic.mp3"));
+		Music music = Gdx.audio.newMusic(Gdx.files.internal("Main.mp3"));
+		music.play();
 	}
 }

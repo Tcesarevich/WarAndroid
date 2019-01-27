@@ -1,6 +1,8 @@
 package ru.geekbrains.stargame.sprite.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -15,6 +17,7 @@ public class MainShip extends Sprite {
 
     private final Vector2 v0 = new Vector2(0.5f, 0);
     private Vector2 v = new Vector2();
+    private Vector2 touchme  = new Vector2();
 
     private boolean isPressedLeft;
     private boolean isPressed;
@@ -23,6 +26,7 @@ public class MainShip extends Sprite {
     private BulletPool bulletPool;
 
     private TextureRegion bulletRegion;
+    Sound sound = Gdx.audio.newSound(Gdx.files.internal("laser.wav"));
 
     public MainShip(TextureAtlas atlas, BulletPool bulletPool) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
@@ -49,10 +53,7 @@ public class MainShip extends Sprite {
             case Input.Keys.A:
             case Input.Keys.LEFT:
                 isPressedLeft = true;
-                if (pos.x == worldBounds.getLeft()) {
-                    System.out.println("board");
-                }
-                   else moveLeft();
+                    moveLeft();
                 break;
             case Input.Keys.D:
             case Input.Keys.RIGHT:
@@ -71,8 +72,9 @@ public class MainShip extends Sprite {
         if (isPressed || !isMe(touch)) {
             return false;
         }
-        v.set(v0);
+        v.set(touch.cpy().sub(pos).setLength(0.02f));
         this.isPressed = true;
+
         return super.touchDown(touch, pointer);
     }
 
@@ -106,11 +108,17 @@ public class MainShip extends Sprite {
     }
 
     private void moveRight() {
-        v.set(v0);
+        if(pos.x+this.getHalfWidth() >= worldBounds.getRight()) {
+            stop();
+        }else v.set(v0);
     }
 
     private void moveLeft() {
-        v.set(v0).rotate(180);
+
+        if (pos.x-this.getHalfWidth() <= worldBounds.getLeft()) {
+            stop();
+        }
+        else v.set(v0).rotate(180);
     }
 
     private void stop() {
@@ -120,6 +128,7 @@ public class MainShip extends Sprite {
     private void shoot() {
         Bullet bullet = bulletPool.obtain();
         bullet.set(this, bulletRegion, pos, new Vector2(0, 0.5f), 0.01f, worldBounds, 1);
+    sound.play();
     }
 
 }
