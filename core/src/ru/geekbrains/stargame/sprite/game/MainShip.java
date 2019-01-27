@@ -17,6 +17,7 @@ public class MainShip extends Sprite {
     private Vector2 v = new Vector2();
 
     private boolean isPressedLeft;
+    private boolean isPressed;
     private boolean isPressedRight;
 
     private BulletPool bulletPool;
@@ -48,7 +49,10 @@ public class MainShip extends Sprite {
             case Input.Keys.A:
             case Input.Keys.LEFT:
                 isPressedLeft = true;
-                moveLeft();
+                if (pos.x == worldBounds.getLeft()) {
+                    System.out.println("board");
+                }
+                   else moveLeft();
                 break;
             case Input.Keys.D:
             case Input.Keys.RIGHT:
@@ -60,6 +64,21 @@ public class MainShip extends Sprite {
                 break;
         }
         return false;
+    }
+
+    @Override
+    public boolean touchDown(Vector2 touch, int pointer) {
+        if (isPressed || !isMe(touch)) {
+            return false;
+        }
+        v.set(v0);
+        this.isPressed = true;
+        return super.touchDown(touch, pointer);
+    }
+
+    @Override
+    public boolean touchUp(Vector2 touch, int pointer) {
+        return super.touchUp(touch, pointer);
     }
 
     public boolean keyUp(int keycode) {
