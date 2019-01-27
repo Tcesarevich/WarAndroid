@@ -9,89 +9,96 @@ import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.stargame.base.Base2DScreen;
 import ru.geekbrains.stargame.math.Rect;
+import ru.geekbrains.stargame.pool.BulletPool;
 import ru.geekbrains.stargame.sprite.Background;
 import ru.geekbrains.stargame.sprite.Star;
+import ru.geekbrains.stargame.sprite.game.MainShip;
 
-class GameScreen extends Base2DScreen {
-    private Texture bg;
+public class GameScreen extends Base2DScreen {
+
     private TextureAtlas atlas;
+    private Texture bg;
     private Background background;
     private Star star[];
+    private MainShip mainShip;
+
+    private BulletPool bulletPool;
 
     @Override
     public void show() {
         super.show();
-        bg = new Texture("background.jpg");
+        bg = new Texture("textures/bg.png");
         background = new Background(new TextureRegion(bg));
-        star = new Star[256];
-        atlas = new TextureAtlas("textures/menuAtlas.tpack");
-
+        atlas = new TextureAtlas("textures/mainAtlas.tpack");
+        star = new Star[64];
         for (int i = 0; i < star.length; i++) {
             star[i] = new Star(atlas);
         }
+        bulletPool = new BulletPool();
+        mainShip = new MainShip(atlas, bulletPool);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
         update(delta);
+        deleteAllDestroyed();
         draw();
     }
+
+    public void update(float delta) {
+        for (int i = 0; i < star.length; i++) {
+            star[i].update(delta);
+        }
+        mainShip.update(delta);
+        bulletPool.updateActiveSprites(delta);
+    }
+
+    public void deleteAllDestroyed() {
+        bulletPool.freeAllDestroyedActiveSprites();
+    }
+
     public void draw() {
         Gdx.gl.glClearColor(0.5f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
-
         for (int i = 0; i < star.length; i++) {
             star[i].draw(batch);
         }
+        mainShip.draw(batch);
+        bulletPool.drawActiveSprites(batch);
         batch.end();
-    }
-    public void update(float delta) {
-        for (int i = 0; i < star.length; i++) {
-            star[i].update(delta);
-        }
     }
 
     @Override
     public void resize(Rect worldBounds) {
+        super.resize(worldBounds);
         background.resize(worldBounds);
         for (int i = 0; i < star.length; i++) {
             star[i].resize(worldBounds);
         }
-    }
-
-    @Override
-    public void hide() {
-        super.hide();
+        mainShip.resize(worldBounds);
     }
 
     @Override
     public void dispose() {
         bg.dispose();
         atlas.dispose();
+        bulletPool.dispose();
         super.dispose();
     }
 
     @Override
     public boolean keyDown(int keycode) {
+        mainShip.keyDown(keycode);
         return super.keyDown(keycode);
     }
 
     @Override
     public boolean keyUp(int keycode) {
+        mainShip.keyUp(keycode);
         return super.keyUp(keycode);
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return super.keyTyped(character);
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return super.touchDown(screenX, screenY, pointer, button);
     }
 
     @Override
@@ -100,22 +107,7 @@ class GameScreen extends Base2DScreen {
     }
 
     @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return super.touchUp(screenX, screenY, pointer, button);
-    }
-
-    @Override
     public boolean touchUp(Vector2 touch, int pointer) {
         return super.touchUp(touch, pointer);
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return super.touchDragged(screenX, screenY, pointer);
-    }
-
-    @Override
-    public boolean touchDragged(Vector2 touch, int pointer) {
-        return super.touchDragged(touch, pointer);
     }
 }

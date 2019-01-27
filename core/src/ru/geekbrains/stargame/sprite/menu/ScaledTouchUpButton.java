@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.stargame.base.Sprite;
-import ru.geekbrains.stargame.base.Sprite;
 
 public abstract class ScaledTouchUpButton extends Sprite {
 

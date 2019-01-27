@@ -1,49 +1,49 @@
-package ru.geekbrains.stargame.screen;
+package ru.geekbrains.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import ru.geekbrains.stargame.Star2DGame;
 import ru.geekbrains.stargame.base.Base2DScreen;
 import ru.geekbrains.stargame.math.Rect;
-import ru.geekbrains.stargame.sprite.Play;
-import ru.geekbrains.stargame.sprite.Quit;
-import ru.geekbrains.stargame.sprite.Star;
 import ru.geekbrains.stargame.sprite.Background;
+import ru.geekbrains.stargame.sprite.Star;
+import ru.geekbrains.stargame.sprite.menu.ButtonExit;
+import ru.geekbrains.stargame.sprite.menu.ButtonPlay;
 
 
 public class MenuScreen extends Base2DScreen {
+
+    private Game game;
 
     private TextureAtlas atlas;
     private Texture bg;
     private Background background;
     private Star star[];
-    private Play play;
-    private Quit quit;
-    private boolean playIsPressed;
-    private boolean quitIsPressed;
-    protected Screen screen;
 
+    private ButtonExit buttonExit;
+    private ButtonPlay buttonPlay;
+
+    public MenuScreen(Game game) {
+        this.game = game;
+    }
 
     @Override
     public void show() {
         super.show();
-        bg = new Texture("background.jpg");
+        bg = new Texture("textures/bg.png");
         background = new Background(new TextureRegion(bg));
         atlas = new TextureAtlas("textures/menuAtlas.tpack");
-        play = new Play(atlas);
-        quit = new Quit(atlas);
         star = new Star[256];
         for (int i = 0; i < star.length; i++) {
             star[i] = new Star(atlas);
         }
-
+        buttonExit = new ButtonExit(atlas);
+        buttonPlay = new ButtonPlay(atlas, game);
     }
 
     @Override
@@ -64,12 +64,11 @@ public class MenuScreen extends Base2DScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
-        play.draw(batch);
-        quit.draw(batch);
-
         for (int i = 0; i < star.length; i++) {
             star[i].draw(batch);
         }
+        buttonExit.draw(batch);
+        buttonPlay.draw(batch);
         batch.end();
     }
 
@@ -79,6 +78,8 @@ public class MenuScreen extends Base2DScreen {
         for (int i = 0; i < star.length; i++) {
             star[i].resize(worldBounds);
         }
+        buttonExit.resize(worldBounds);
+        buttonPlay.resize(worldBounds);
     }
 
     @Override
@@ -90,42 +91,15 @@ public class MenuScreen extends Base2DScreen {
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer) {
-        if(touch.x >= play.getLeft() && touch.x <= play.getRight() && touch.y >= play.getBottom() && touch.y <= play.getTop()){
-            this.playIsPressed = true;
-            play.setHeightProportion(0.36f);
-        }
-        if(touch.x >= quit.getLeft() && touch.x <= quit.getRight() && touch.y >= quit.getBottom() && touch.y <= quit.getTop()) {
-        quitIsPressed = true;
-            quit.setHeightProportion(0.15f);
-        }
+        buttonExit.touchDown(touch, pointer);
+        buttonPlay.touchDown(touch, pointer);
         return super.touchDown(touch, pointer);
     }
 
-//
-
     @Override
     public boolean touchUp(Vector2 touch, int pointer) {
-        if (touch.x >= play.getLeft() && touch.x <= play.getRight() && touch.y >= play.getBottom() && touch.y <= play.getTop() &&playIsPressed==true) {
-            this.playIsPressed = false;
-            play.setHeightProportion(0.4f);
-            this.hide();
-            setScreen(new GameScreen());
-
-        }
-        if (touch.x >= quit.getLeft() && touch.x <= quit.getRight() && touch.y >= quit.getBottom() && touch.y <= quit.getTop()&& quitIsPressed==true) {
-            quitIsPressed = false;
-            System.exit(0);
-        }
-            return super.touchUp(touch, pointer);
-    }
-
-    public void setScreen (Screen screen) {
-        if (this.screen != null) this.screen.hide();
-        this.screen = screen;
-        if (this.screen != null) {
-            this.screen.show();
-            this.screen.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        }
+        buttonExit.touchUp(touch, pointer);
+        buttonPlay.touchUp(touch, pointer);
+        return super.touchUp(touch, pointer);
     }
 }
-
