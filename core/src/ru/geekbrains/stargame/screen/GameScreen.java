@@ -21,7 +21,7 @@ public class GameScreen extends Base2DScreen {
     private Background background;
     private Star star[];
     private MainShip mainShip;
-
+    private Vector2 touch = new Vector2();
     private BulletPool bulletPool;
 
     @Override
@@ -99,6 +99,13 @@ public class GameScreen extends Base2DScreen {
     public boolean keyUp(int keycode) {
         mainShip.keyUp(keycode);
         return super.keyUp(keycode);
+    }
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return mainShip.touchDragged(screenX, screenY, pointer);
+    }
+    public boolean touchDragged(Vector2 touch, int pointer) {
+        return false;
     }
 
     @Override

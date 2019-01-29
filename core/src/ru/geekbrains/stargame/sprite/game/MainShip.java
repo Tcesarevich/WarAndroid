@@ -15,7 +15,7 @@ public class MainShip extends Sprite {
 
     private Rect worldBounds;
 
-    private final Vector2 v0 = new Vector2(0.5f, 0);
+    private final Vector2 v0 = new Vector2(0.2f, 0);
     private Vector2 v = new Vector2();
     private Vector2 touchme  = new Vector2();
 
@@ -24,7 +24,7 @@ public class MainShip extends Sprite {
     private boolean isPressedRight;
 
     private BulletPool bulletPool;
-
+    private Vector2 touch=new Vector2();
     private TextureRegion bulletRegion;
     Sound sound = Gdx.audio.newSound(Gdx.files.internal("laser.wav"));
 
@@ -33,6 +33,7 @@ public class MainShip extends Sprite {
         this.bulletRegion = atlas.findRegion("bulletMainShip");
         this.bulletPool = bulletPool;
         setHeightProportion(0.15f);
+
     }
 
     @Override
@@ -72,7 +73,11 @@ public class MainShip extends Sprite {
         if (isPressed || !isMe(touch)) {
             return false;
         }
-        v.set(touch.cpy().sub(pos).setLength(0.02f));
+//        v.set(touch.cpy().sub(pos).setLength(0.02f));
+      if(touch.x<0){
+            moveLeft();
+      }
+
         this.isPressed = true;
 
         return super.touchDown(touch, pointer);
@@ -107,6 +112,27 @@ public class MainShip extends Sprite {
         return false;
     }
 
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        if(pos.x<0.1f)
+            //TODO Почему то с этим условием вообще не двигается (зависает)
+
+            // while (pos.x+this.getHalfWidth() <= worldBounds.getRight()){
+            moveRight();
+        //}
+
+        if(pos.x>0.1f) {
+           //TODO Почему то с этим условием вообще не двигается(зависает)
+            // while (pos.x - this.getHalfWidth() >= worldBounds.getLeft()){
+                moveLeft();
+    //    }
+    }
+        return touchDragged(touch, pointer);
+    }
+
+    public boolean touchDragged(Vector2 touch, int pointer) {
+        return false;
+    }
+
     private void moveRight() {
         if(pos.x+this.getHalfWidth() >= worldBounds.getRight()) {
             stop();
@@ -118,7 +144,8 @@ public class MainShip extends Sprite {
         if (pos.x-this.getHalfWidth() <= worldBounds.getLeft()) {
             stop();
         }
-        else v.set(v0).rotate(180);
+        else
+            v.set(v0).rotate(180);
     }
 
     private void stop() {

@@ -12,5 +12,6 @@ public class Star2DGame extends Game {
         setScreen(new MenuScreen(this));
         Music music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
         music.play();
+        music.setLooping(true);
     }
 }
