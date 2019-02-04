@@ -41,11 +41,12 @@ public class GameScreen extends Base2DScreen {
     @Override
     public void show() {
         super.show();
-        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
         music.setLooping(true);
         music.setVolume(0.8f);
         music.play();
-        bg = new Texture("textures/bg.png");
+        bg = new Texture("background.jpg");
         background = new Background(new TextureRegion(bg));
         atlas = new TextureAtlas("textures/mainAtlas.tpack");
         star = new Star[64];

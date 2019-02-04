@@ -28,7 +28,7 @@ public class MainShip extends Ship {
         this.bulletPool = bulletPool;
         this.explosionPool = explosionPool;
         this.reloadInterval = 0.2f;
-        this.shootSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser.wav"));
+        this.shootSound = Gdx.audio.newSound(Gdx.files.internal("laser.wav"));
         setHeightProportion(0.15f);
         this.bulletV = new Vector2(0, 0.5f);
         this.bulletHeight = 0.01f;
