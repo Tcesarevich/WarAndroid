@@ -43,6 +43,7 @@ public class GameScreen extends Base2DScreen {
     private Music music;
     ButtonGameOver gameOver;
     ButtonNewGame newGame;
+
     public GameScreen() {
 
     }
@@ -72,7 +73,7 @@ public class GameScreen extends Base2DScreen {
 
         enemyEmitter = new EnemyEmitter(atlas, enemyPool, worldBounds);
         gameOver = new ButtonGameOver(atlas);
-         newGame= new ButtonNewGame(atlas,game);
+        newGame = new ButtonNewGame(atlas, game);
     }
 
     @Override
@@ -90,9 +91,9 @@ public class GameScreen extends Base2DScreen {
         }
         if (!mainShip.isDestroyed) {
             mainShip.update(delta);
-        } else  if (mainShip.isDestroyed) {
-         music.stop();
-         enemyPool.dispose();
+        } else if (mainShip.isDestroyed) {
+            music.stop();
+            enemyPool.dispose();
 
         }
         bulletPool.updateActiveSprites(delta);
@@ -205,6 +206,7 @@ public class GameScreen extends Base2DScreen {
         }
         return super.keyDown(keycode);
     }
+
     @Override
     public boolean keyUp(int keycode) {
         if (!mainShip.isDestroyed()) {
