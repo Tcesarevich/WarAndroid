@@ -18,6 +18,7 @@ public class MainShip extends Ship {
 
     private boolean isPressedLeft;
     private boolean isPressedRight;
+    public  boolean isDestroyed;
 
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
@@ -33,7 +34,7 @@ public class MainShip extends Ship {
         this.bulletV = new Vector2(0, 0.5f);
         this.bulletHeight = 0.01f;
         this.damage = 1;
-        this.hp = 100;
+        this.hp = 10;
     }
 
     @Override
@@ -47,6 +48,7 @@ public class MainShip extends Ship {
         super.update(delta);
         pos.mulAdd(v, delta);
         reloadTimer += delta;
+        System.out.println(hp);
         if (reloadTimer >= reloadInterval) {
             reloadTimer = 0f;
             shoot();
@@ -147,6 +149,8 @@ public class MainShip extends Ship {
     public void destroy() {
         super.destroy();
         boom();
+        isDestroyed=true;
+
     }
 
     private void moveRight() {
