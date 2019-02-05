@@ -205,7 +205,6 @@ public class GameScreen extends Base2DScreen {
         }
         return super.keyDown(keycode);
     }
-
     @Override
     public boolean keyUp(int keycode) {
         if (!mainShip.isDestroyed()) {
