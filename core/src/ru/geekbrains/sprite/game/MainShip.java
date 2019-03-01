@@ -17,23 +17,31 @@ public class MainShip extends Ship {
 
     private boolean isPressedLeft;
     private boolean isPressedRight;
-    public  boolean isDestroyed;
 
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
 
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool) {
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
+
+        this.worldBounds = worldBounds;
         this.bulletRegion = atlas.findRegion("bulletMainShip");
         this.bulletPool = bulletPool;
         this.explosionPool = explosionPool;
-        this.reloadInterval = 0.5f;
-        this.shootSound = Gdx.audio.newSound(Gdx.files.internal("laser.wav"));
+        this.reloadInterval = 0.2f;
+        this.shootSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser.wav"));
         setHeightProportion(0.15f);
         this.bulletV = new Vector2(0, 0.5f);
         this.bulletHeight = 0.01f;
         this.damage = 1;
-        this.hp = 10;
+        startNewGame();
+    }
+
+    public void startNewGame() {
+        stop();
+        pos.x = worldBounds.pos.x;
+        this.hp = 100;
+        flushDestroy();
     }
 
     @Override
@@ -47,7 +55,6 @@ public class MainShip extends Ship {
         super.update(delta);
         pos.mulAdd(v, delta);
         reloadTimer += delta;
-        System.out.println(hp);
         if (reloadTimer >= reloadInterval) {
             reloadTimer = 0f;
             shoot();
@@ -148,8 +155,6 @@ public class MainShip extends Ship {
     public void destroy() {
         super.destroy();
         boom();
-        isDestroyed=true;
-
     }
 
     private void moveRight() {

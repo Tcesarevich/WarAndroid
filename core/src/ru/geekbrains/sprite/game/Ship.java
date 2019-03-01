@@ -58,7 +58,6 @@ public class Ship extends Sprite {
 
     public void shoot() {
         shootSound.play();
-        shootSound.setVolume(1,0.8f);
         Bullet bullet = bulletPool.obtain();
         bullet.set(this, bulletRegion, pos, bulletV, bulletHeight, worldBounds, damage);
     }
@@ -73,6 +72,7 @@ public class Ship extends Sprite {
         damageTimer = 0f;
         hp -= damage;
         if (hp <= 0) {
+            hp = 0;
             destroy();
         }
     }
@@ -83,5 +83,9 @@ public class Ship extends Sprite {
 
     public int getDamage() {
         return damage;
+    }
+
+    public int getHp() {
+        return hp;
     }
 }
